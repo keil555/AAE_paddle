@@ -47,7 +47,7 @@ python data_maker.py
 - 训练
 
 ```
-python aae.py
+python train.py
 ```
 
 - 测试log_likelihood
