@@ -1,0 +1,26 @@
+[2021-08-24 15:03:26,259][eval.py][line:37][INFO] Namespace(batch_size=100, epochs=500, sigma=None, std=5, latent_dim=8, epoch=199)
+[2021-08-24 15:03:29,965][eval.py][line:48][INFO] model/model199.pkl loaded!
+[2021-08-24 15:03:59,236][parzen_ll.py][line:32][INFO] sigma = 0.10000, nll = 138.81094
+[2021-08-24 15:04:27,788][parzen_ll.py][line:32][INFO] sigma = 0.10885, nll = 218.48831
+[2021-08-24 15:04:56,351][parzen_ll.py][line:32][INFO] sigma = 0.11849, nll = 275.35364
+[2021-08-24 15:05:24,905][parzen_ll.py][line:32][INFO] sigma = 0.12898, nll = 312.96689
+[2021-08-24 15:05:53,466][parzen_ll.py][line:32][INFO] sigma = 0.14040, nll = 334.33243
+[2021-08-24 15:06:23,304][parzen_ll.py][line:32][INFO] sigma = 0.15283, nll = 341.98596
+[2021-08-24 15:06:52,937][parzen_ll.py][line:32][INFO] sigma = 0.16636, nll = 338.06732
+[2021-08-24 15:07:21,936][parzen_ll.py][line:32][INFO] sigma = 0.18109, nll = 324.38266
+[2021-08-24 15:07:50,897][parzen_ll.py][line:32][INFO] sigma = 0.19712, nll = 302.45599
+[2021-08-24 15:08:19,906][parzen_ll.py][line:32][INFO] sigma = 0.21457, nll = 273.57385
+[2021-08-24 15:08:48,900][parzen_ll.py][line:32][INFO] sigma = 0.23357, nll = 238.82190
+[2021-08-24 15:09:17,936][parzen_ll.py][line:32][INFO] sigma = 0.25425, nll = 199.11656
+[2021-08-24 15:09:46,944][parzen_ll.py][line:32][INFO] sigma = 0.27676, nll = 155.23131
+[2021-08-24 15:10:15,947][parzen_ll.py][line:32][INFO] sigma = 0.30126, nll = 107.81897
+[2021-08-24 15:10:44,962][parzen_ll.py][line:32][INFO] sigma = 0.32794, nll = 57.43075
+[2021-08-24 15:11:14,017][parzen_ll.py][line:32][INFO] sigma = 0.35697, nll = 4.53194
+[2021-08-24 15:11:43,059][parzen_ll.py][line:32][INFO] sigma = 0.38857, nll = -50.48453
+[2021-08-24 15:12:12,099][parzen_ll.py][line:32][INFO] sigma = 0.42298, nll = -107.28677
+[2021-08-24 15:12:41,139][parzen_ll.py][line:32][INFO] sigma = 0.46042, nll = -165.59444
+[2021-08-24 15:13:10,226][parzen_ll.py][line:32][INFO] sigma = 0.50119, nll = -225.17052
+[2021-08-24 15:13:10,259][eval.py][line:74][INFO] Using Sigma: 0.1528306732658769
+[2021-08-24 15:17:59,700][eval.py][line:81][INFO] Log-Likelihood of test set = 344.0526428222656, se: 1.9088064575195312
+[2021-08-24 15:18:28,679][eval.py][line:84][INFO] Log-Likelihood of valid set = 341.9859619140625, se: 6.141740968361051
+[2021-08-24 15:18:28,679][eval.py][line:86][INFO] finish evaluation
