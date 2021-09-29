@@ -1,10 +1,34 @@
 # Adversarial Autoencoders
 
-[TOC]
+<!-- vscode-markdown-toc -->
+* 1. [1 Introduction](#Introduction)
+* 2. [2 Reproduction accuracy](#Reproductionaccuracy)
+	* 2.1. [2.1 Generated images](#Generatedimages)
+	* 2.2. [2.2 loss](#loss)
+	* 2.3. [2.3 Likelihood](#Likelihood)
+		* 2.3.1. [2.3.1 Parzen window length σ cross validation curve on validation set](#Parzenwindowlengthcrossvalidationcurveonvalidationset)
+		* 2.3.2. [2.3.2 Reproduced results](#Reproducedresults)
+		* 2.3.3. [2.3.3 对比实验](#)
+* 3. [3 Dataset](#Dataset)
+* 4. [4 Requirement](#Requirement)
+* 5. [5 Quick start](#Quickstart)
+* 6. [6 Code structure and detailed description](#Codestructureanddetaileddescription)
+	* 6.1. [6.1 Code structure](#Codestructure)
+	* 6.2. [6.2 Parameter Description](#ParameterDescription)
+	* 6.3. [6.3 Implementation details](#Implementationdetails)
+	* 6.4. [6.4 Training process](#Trainingprocess)
+	* 6.5. [6.5 Test process](#Testprocess)
+	* 6.6. [6.6 Evaluation on pre-trained model](#Evaluationonpre-trainedmodel)
+* 7. [7 Model information](#Modelinformation)
+
+<!-- vscode-markdown-toc-config
+	numbering=true
+	autoSave=true
+	/vscode-markdown-toc-config -->
+<!-- /vscode-markdown-toc -->
 
 
-
-## 1 Introduction
+##  1. <a name='Introduction'></a>1 Introduction
 
 This project is based on the paddlepaddle framework to reproduce Adversarial Autoencoders (AAE). This is a probabilistic autoencoder that uses a Generative Adversarial Network (GAN) to perform variational inference by matching the aggregate posterior of the latent variable of the autoencoder with any prior distribution. It matches the aggregate posterior with the prior distribution, ensuring that meaningful samples are generated from any part of the prior space. Therefore, AAE's Decoder learns a deep generative model, which maps the prior distribution to the corresponding data.
 
@@ -21,15 +45,15 @@ This project is based on the paddlepaddle framework to reproduce Adversarial Aut
 
 - notebook任务：https://aistudio.baidu.com/aistudio/projectdetail/2301660
 
-## 2 Reproduction accuracy
+##  2. <a name='Reproductionaccuracy'></a>2 Reproduction accuracy
 
-### 2.1 Generated images
+###  2.1. <a name='Generatedimages'></a>2.1 Generated images
 | Epoch0                                                       | Epoch20                                                      | Epoch100                                                     |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | ![](https://ai-studio-static-online.cdn.bcebos.com/967972ee668b402b8ed7d2bc9dbcf3de53a58721e63541f697786448c4c6a71d)|  ![](https://ai-studio-static-online.cdn.bcebos.com/e264f6fd61cc41f2acaa1ca5c33de5208dc9884055374537b14d7505cf33e263)| ![](https://ai-studio-static-online.cdn.bcebos.com/66ce25e920a543bf84d44f597bceb5243a74b6979c4e45f3a4480cd86bfd9ff0)|
 
 
-### 2.2 loss
+###  2.2. <a name='loss'></a>2.2 loss
 <img src="https://ai-studio-static-online.cdn.bcebos.com/6b025dc85477444893d0a52224a27992858e9ab3d0614889844b5ba3445e7db4" width = "750" align=center />
 
 In the figure, D_loss is the loss of the discriminator, G_loss is the loss of the encoder, and recon_loss is the loss of the picture. Here, the binary cross entropy function (BCEloss) is selected.
@@ -38,9 +62,9 @@ recon loss = BCE(X_{sample}, X_{decoder})
 
 As shown in the figure, D_loss and G_loss stabilize at around 50 epochs. The recon_loss gradually decreases and stabilizes in 20-30 rounds.
 
-### 2.3 Likelihood
+###  2.3. <a name='Likelihood'></a>2.3 Likelihood
 
-#### 2.3.1 Parzen window length σ cross validation curve on validation set
+####  2.3.1. <a name='Parzenwindowlengthcrossvalidationcurveonvalidationset'></a>2.3.1 Parzen window length σ cross validation curve on validation set
 
 It is mentioned in the original paper that the selection of the window length σ needs to be achieved through cross-validation. This paper uses a validation set of 1000 data samples for selection, so as to obtain a window length that meets the maximum likelihood criterion.
 
@@ -48,14 +72,14 @@ It is mentioned in the original paper that the selection of the window length σ
 
 According to the results of a small number of samples on the validation set, the σ value that maximizes the negative log likelihood (nll) is selected as the window length
 
-#### 2.3.2 Reproduced results
+####  2.3.2. <a name='Reproducedresults'></a>2.3.2 Reproduced results
 |            | MNIST (10K)                                                  |
 | ---------- | ------------------------------------------------------------ |
 | original   | 340 ± 2                                                      |
 | reproduced | 345 ± 1.9432                                                 |
 |            | ![](https://ai-studio-static-online.cdn.bcebos.com/297396923f824dedb8a9bf7cd78532dd267bc8fa4f364d6893c1e61138344c0c) |
 
-#### 2.3.3 对比实验
+####  2.3.3. <a name=''></a>2.3.3 对比实验
 
 |                                      | MNIST (10K)  |
 | ------------------------------------ | ------------ |
@@ -66,7 +90,7 @@ According to the results of a small number of samples on the validation set, the
 
 **Analysis of experimental results:** The results show that the current model settings can be closest to or even exceed the original nll index. This indicator measures the diversity of production data samples on the one hand, and on the other hand requires the generated data samples to be as close as possible to the samples in the data set. The model without the dropout layers is prone to overfitting, which tends to adopt conservative strategies for sample generation, and the data diversity is poor. The model in the reference repository[1] uses the LeakyReLU activation function, and the effect is improved, but it is also prone to overfitting due to the absence of dropout layers.
 
-## 3 Dataset
+##  3. <a name='Dataset'></a>3 Dataset
 
 [MNIST](http://yann.lecun.com/exdb/mnist/)
 
@@ -75,7 +99,7 @@ According to the results of a small number of samples on the validation set, the
   - Validation: 10000
 - Format: idx
 
-## 4 Requirement
+##  4. <a name='Requirement'></a>4 Requirement
 
 - Hardware: GPU, CPU
 - Framework：
@@ -84,7 +108,7 @@ According to the results of a small number of samples on the validation set, the
   - matplotlib >= 3.4.2
   - pandas >=  1.3.1
 
-## 5 Quick start
+##  5. <a name='Quickstart'></a>5 Quick start
 
 - **step1:** data generation
 
@@ -104,9 +128,9 @@ python train.py
 python eval.py
 ```
 
-## 6 Code structure and detailed description
+##  6. <a name='Codestructureanddetaileddescription'></a>6 Code structure and detailed description
 
-### 6.1 Code structure 
+###  6.1. <a name='Codestructure'></a>6.1 Code structure 
 
 ```
 AAE_paddle_modified
@@ -127,17 +151,17 @@ AAE_paddle_modified
 └─ eval.py                        # evaluation code
 ```
 
-### 6.2 Parameter Description
+###  6.2. <a name='ParameterDescription'></a>6.2 Parameter Description
 
 You can set training and evaluation related parameters in `config.py`, which are mainly divided into three categories: related to the model structure, related to the data, and related to the training and testing environment.
 
-### 6.3 Implementation details
+###  6.3. <a name='Implementationdetails'></a>6.3 Implementation details
 
 - Following the original principles, Encoder uses two fully connected layers, Decoder uses two fully connected layers, and Discriminator uses two fully connected layers. Since the original text did not publish the code and related detailed parameters, the author added the Dropout layer here, and added the re-parametrization trick as described in the appendix of the original text, which is to re-parameterize the generated latent variable z into a Gaussian distribution.
 
 - The Gaussian prior distribution is 8-dimensional, the variance is 5, and the number of neurons is 1200. The network structure is the same as the original
 
-### 6.4 Training process
+###  6.4. <a name='Trainingprocess'></a>6.4 Training process
 
 run
 
@@ -156,7 +180,7 @@ W0922 21:04:18.067184 50879 device_context.cc:422] device: 0, cuDNN Version: 7.6
 [2021-09-22 21:05:15,312][train.py][line:174][INFO] [Epoch 1/200] [Batch 589/590] [D loss: 1.831465] [G loss: 0.627008] [recon loss: 0.163741]
 ```
 
-### 6.5 Test process
+###  6.5. <a name='Testprocess'></a>6.5 Test process
 
 run
 
@@ -175,12 +199,12 @@ W0922 22:36:12.579428 66119 device_context.cc:422] device: 0, cuDNN Version: 7.6
 [2021-09-22 22:37:53,652][parzen_ll.py][line:32][INFO] sigma = 0.10885, nll = 214.54500
 ```
 
-### 6.6 Evaluation on pre-trained model 
+###  6.6. <a name='Evaluationonpre-trainedmodel'></a>6.6 Evaluation on pre-trained model 
 
 The pre-trained model is saved in `./model/model199.pkl` in [aistudio project](https://aistudio.baidu.com/aistudio/projectdetail/2301660), which is the output result of round 199. The model can be quickly evaluated. If there is no split data set in the `./data/` folder, please run `datamaker.py` first to generate a split data set.
 
 
-## 7 Model information
+##  7. <a name='Modelinformation'></a>7 Model information
 
 For other information about the model, you can refer to the following table:
 
