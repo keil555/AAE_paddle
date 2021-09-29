@@ -8,10 +8,13 @@ from paddle.vision.datasets import MNIST
 from paddle.io  import random_split
 from paddle.io import DataLoader
 import pickle
+from config import args_parser
 
-N = 1200
-STD = 5
-z_dim = 8
+opt = args_parser()
+N = opt.N
+STD = opt.std
+z_dim = opt.latent_dim
+img_size = opt.img_size
 
 def reparameterization(mu, logvar):
     std = paddle.exp(logvar / 2)
@@ -24,7 +27,7 @@ class Encoder(nn.Layer):
         super(Encoder, self).__init__()
 
         self.model = nn.Sequential(
-            nn.Linear(1*28*28, N),
+            nn.Linear(1*img_size*img_size, N),
             nn.Dropout(0.2),
             nn.ReLU(),
             nn.Linear(N, N),
@@ -57,13 +60,13 @@ class Decoder(nn.Layer):
             nn.Linear(N, N),
             nn.Dropout(0.2),
             nn.ReLU(),
-            nn.Linear(N, 1*28*28),
+            nn.Linear(N, 1*img_size*img_size),
             nn.Sigmoid(),
         )
 
     def forward(self, z):
         img_flat = self.model(z)
-        img = paddle.reshape(img_flat, shape = [img_flat.shape[0], 1,28,28] )
+        img = paddle.reshape(img_flat, shape = [img_flat.shape[0], 1,img_size,img_size] )
         return img
 
 

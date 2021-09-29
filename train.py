@@ -19,6 +19,7 @@ from network import Encoder, Decoder, Discriminator
 from utils.paddle_save_image import save_image
 from utils.parzen_ll import *
 from utils.log import get_logger
+from config import args_parser
 
 # paddle.utils.run_check()
 
@@ -50,21 +51,12 @@ def pd_one_epoch_to_csv(export_data, epoch, D_loss, G_loss, PATH, recon_loss=Non
     return export_data
 
 if __name__ == "__main__" :
+    # Training settings
+    opt = args_parser()
     loss = []
     device_id = 0
     os.makedirs("images", exist_ok=True)
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--n_epochs", type=int, default=200, help="number of epochs of training")
-    parser.add_argument("--batch_size", type=int, default=100, help="size of the batches")
-    parser.add_argument("--gen_lr", type=float, default=0.0002, help="adam: generator learning rate")
-    parser.add_argument("--reg_lr", type=float, default=0.0001, help="adam: reconstruction learning rate")
-    parser.add_argument("--latent_dim", type=int, default=8, help="dimensionality of the latent code")
-    parser.add_argument("--img_size", type=int, default=28, help="size of each image dimension")
-    parser.add_argument("--channels", type=int, default=1, help="number of image channels")
-    parser.add_argument("--std", type=float, default=5, help="std prior")
-    parser.add_argument("--load", type=bool, default=False, help="load model or not")
-    opt = parser.parse_args()
     # log 输出
     logger = get_logger('./logs/train.log')
     logger.info(opt)
@@ -74,7 +66,7 @@ if __name__ == "__main__" :
     # Configure data loader
     trainset = paddle.load("./data/train")
     traindataloader = DataLoader(
-        trainset, batch_size=100, shuffle=True,
+        trainset, batch_size=opt.batchsize, shuffle=True,
     )
 
     # Initialize generator and discriminator
@@ -101,7 +93,7 @@ if __name__ == "__main__" :
         learning_rate=opt.reg_lr)
 
     if opt.load == True:
-        checkpoint = paddle.load("./model/model299.pkl")
+        checkpoint = paddle.load("./model/model" + str(opt.load_epoch) + ".pkl")
         encoder.set_state_dict(checkpoint['encoder'])
         decoder.set_state_dict(checkpoint['decoder'])
         discriminator.set_state_dict(checkpoint['discriminator'])
